@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan een gesprek — Loevesijn Advies & Ontwikkeling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1E2A22;
+    --ink-soft: #52604F;
+    --ink-faint: #8A9686;
+    --paper: #EFF1EA;
+    --paper-raised: #FFFFFF;
+    --accent: #3F6B52;
+    --accent-hover: #345A45;
+    --accent-soft: #DEE8DF;
+    --line: #D6DBCE;
+    --error: #A6432E;
+    --error-soft: #F5E4E0;
+    --whatsapp: #1F9D4D;
+    --whatsapp-hover: #178740;
+    --radius-s: 3px;
+    --radius-m: 6px;
+    --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+    --sans: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --ink: #E9EDE6;
+      --ink-soft: #AEBBA9;
+      --ink-faint: #6E7A6A;
+      --paper: #10140E;
+      --paper-raised: #191F16;
+      --accent: #6FAE86;
+      --accent-hover: #85BE99;
+      --accent-soft: #223028;
+      --line: #2A3327;
+      --error: #E08469;
+      --error-soft: #3A2420;
+      --whatsapp: #3FCB6E;
+      --whatsapp-hover: #58D482;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ink: #E9EDE6;
+    --ink-soft: #AEBBA9;
+    --ink-faint: #6E7A6A;
+    --paper: #10140E;
+    --paper-raised: #191F16;
+    --accent: #6FAE86;
+    --accent-hover: #85BE99;
+    --accent-soft: #223028;
+    --line: #2A3327;
+    --error: #E08469;
+    --error-soft: #3A2420;
+    --whatsapp: #3FCB6E;
+    --whatsapp-hover: #58D482;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  header.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 36px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .wordmark {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: 0.01em;
+  }
+
+  .wordmark span { color: var(--ink-soft); font-weight: 500; }
+
+  .top a {
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .top a:hover { color: var(--accent); border-color: var(--accent); }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(28px, 6vw, 36px);
+    line-height: 1.15;
+    margin: 0 0 12px;
+  }
+
+  .intro {
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    max-width: 46ch;
+    margin: 0 0 34px;
+  }
+
+  /* stepper */
+  .stepper {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 30px;
+  }
+  .step-track {
+    flex: 1;
+    height: 3px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .step-track > i {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    transition: width .35s ease;
+  }
+  .step-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: var(--ink-faint);
+    margin-top: 7px;
+    margin-bottom: 28px;
+  }
+  .step-labels span.active { color: var(--accent); font-weight: 600; }
+
+  .panel {
+    display: none;
+  }
+  .panel.active {
+    display: block;
+    animation: rise .32s ease both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .panel.active { animation: none; }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h2.section-title {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .section-sub {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin: 0 0 20px;
+  }
+
+  /* service cards */
+  .service-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .service-card {
+    text-align: left;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--line);
+    border-radius: var(--radius-s);
+    padding: 14px 16px;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .service-card:hover { border-left-color: var(--accent); }
+  .service-card.selected {
+    border-left-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .service-card .name {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 3px;
+  }
+  .service-card .desc {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+
+  /* date & time */
+  label.field-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 7px;
+  }
+  input[type="date"], input[type="text"], input[type="email"], input[type="tel"], textarea {
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    padding: 11px 13px;
+  }
+  input:focus, textarea:focus, button:focus-visible, .service-card:focus-visible, .slot:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .field { margin-bottom: 20px; }
+  .field .hint { font-size: 12.5px; color: var(--ink-faint); margin-top: 6px; }
+  .field .err { font-size: 12.5px; color: var(--error); margin-top: 6px; display: none; }
+  .field.invalid input, .field.invalid textarea { border-color: var(--error); }
+  .field.invalid .err { display: block; }
+
+  .slot-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  @media (min-width: 480px) {
+    .slot-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  .slot {
+    padding: 10px 4px;
+    text-align: center;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--ink);
+  }
+  .slot:hover { border-color: var(--accent); }
+  .slot.selected {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .slot-empty {
+    grid-column: 1 / -1;
+    color: var(--ink-faint);
+    font-size: 13.5px;
+    padding: 10px 2px;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  button {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 14.5px;
+    border-radius: var(--radius-s);
+    padding: 12px 20px;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  button.primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    flex: 1;
+  }
+  button.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+  button.primary:disabled {
+    background: var(--line);
+    border-color: var(--line);
+    color: var(--ink-faint);
+    cursor: not-allowed;
+  }
+  button.ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    border-color: var(--line);
+  }
+  button.ghost:hover { border-color: var(--ink-soft); color: var(--ink); }
+
+  /* summary card */
+  .summary-card {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius-s);
+    padding: 18px 20px;
+    margin-bottom: 26px;
+  }
+  .summary-card .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .summary-card .row:last-child { border-bottom: none; }
+  .summary-card .row .k { color: var(--ink-soft); }
+  .summary-card .row .v { font-weight: 600; text-align: right; }
+
+  .send-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  a.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    text-decoration: none;
+    padding: 13px 18px;
+    border-radius: var(--radius-s);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  a.action-btn.whatsapp { background: var(--whatsapp); color: #fff; }
+  a.action-btn.whatsapp:hover { background: var(--whatsapp-hover); }
+  a.action-btn.email {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  a.action-btn.email:hover { border-color: var(--ink-soft); }
+  .action-btn.calendar {
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--sans);
+  }
+  .action-btn.calendar:hover { background: var(--accent-hover); }
+
+  h3.mini-heading {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--ink-soft);
+    margin: 22px 0 10px;
+  }
+  h3.mini-heading:first-of-type { margin-top: 0; }
+
+  .calendar-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  @media (min-width: 520px) {
+    .calendar-actions { grid-template-columns: repeat(3, 1fr); }
+  }
+  .action-btn.cal-btn {
+    background: var(--paper-raised);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    font-size: 14px;
+    padding: 13px 10px;
+  }
+  .action-btn.cal-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .note-box {
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: var(--accent-soft);
+    border-radius: var(--radius-s);
+    padding: 12px 14px;
+    margin-top: 4px;
+  }
+
+  footer {
+    margin-top: 50px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  #restart-wrap { text-align: center; margin-top: 20px; }
+  #restart-wrap button { background: none; border: none; color: var(--ink-soft); font-size: 13px; text-decoration: underline; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="wordmark">Loevesijn <span>Advies &amp; Ontwikkeling</span></div>
+    <a href="https://loevesijnadvies.nl/" target="_blank" rel="noopener">loevesijnadvies.nl</a>
+  </header>
+
+  <div id="flow">
+  <h1>Plan een gesprek met Diana</h1>
+  <p class="intro">Kies het onderwerp, een moment dat past, en je gegevens. Diana neemt je aanvraag persoonlijk door en bevestigt het gesprek.</p>
+
+  <div class="stepper">
+    <div class="step-track"><i id="track-1"></i></div>
+    <div class="step-track"><i id="track-2"></i></div>
+    <div class="step-track"><i id="track-3"></i></div>
+    <div class="step-track"><i id="track-4"></i></div>
+  </div>
+  <div class="step-labels">
+    <span id="label-1">Onderwerp</span>
+    <span id="label-2">Moment</span>
+    <span id="label-3">Gegevens</span>
+    <span id="label-4">Versturen</span>
+  </div>
+
+  <!-- STEP 1: SERVICE -->
+  <section class="panel" id="panel-1">
+    <h2 class="section-title">Waar wil je het over hebben?</h2>
+    <p class="section-sub">Elk gesprek duurt ongeveer 45 minuten.</p>
+    <div class="service-list" id="service-list"></div>
+    <div class="btn-row">
+      <button class="primary" id="to-step-2" disabled>Volgende</button>
+    </div>
+  </section>
+
+  <!-- STEP 2: DATE & TIME -->
+  <section class="panel" id="panel-2">
+    <h2 class="section-title">Kies een moment</h2>
+    <p class="section-sub">Diana is elke dag bereikbaar tussen 9:00 en 20:00, het hele weekend inbegrepen.</p>
+
+    <div class="field">
+      <label class="field-label" for="date-input">Datum</label>
+      <input type="date" id="date-input">
+    </div>
+
+    <div class="field">
+      <label class="field-label">Tijd (45 min)</label>
+      <div class="slot-grid" id="slot-grid"></div>
+    </div>
+
+    <p class="note-box">Dit is je voorkeursmoment. Diana bevestigt de afspraak persoonlijk, zodat er niets dubbel in haar agenda terechtkomt.</p>
+
+    <div class="btn-row">
+      <button class="ghost" id="back-to-1">Terug</button>
+      <button class="primary" id="to-step-3" disabled>Volgende</button>
+    </div>
+  </section>
+
+  <!-- STEP 3: DETAILS -->
+  <section class="panel" id="panel-3">
+    <h2 class="section-title">Jouw gegevens</h2>
+    <p class="section-sub">Zodat Diana je kan bereiken om de afspraak te bevestigen.</p>
+
+    <div class="field" id="field-name">
+      <label class="field-label" for="name-input">Naam</label>
+      <input type="text" id="name-input" placeholder="Voor- en achternaam" autocomplete="name">
+      <div class="err">Vul je naam in.</div>
+    </div>
+
+    <div class="field" id="field-email">
+      <label class="field-label" for="email-input">E-mailadres</label>
+      <input type="email" id="email-input" placeholder="naam@bedrijf.nl" autocomplete="email">
+      <div class="err">Vul een geldig e-mailadres in.</div>
+    </div>
+
+    <div class="field" id="field-phone">
+      <label class="field-label" for="phone-input">Telefoonnummer</label>
+      <input type="tel" id="phone-input" placeholder="06 12345678" autocomplete="tel">
+      <div class="err">Vul een telefoonnummer in.</div>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="note-input">Toelichting (optioneel)</label>
+      <textarea id="note-input" rows="3" placeholder="Waar mag Diana zich vast op voorbereiden?"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="ghost" id="back-to-2">Terug</button>
+      <button class="primary" id="to-step-4">Volgende</button>
+    </div>
+  </section>
+
+  <!-- STEP 4: CONFIRM & SEND -->
+  <section class="panel" id="panel-4">
+    <h2 class="section-title">Aanvraag versturen</h2>
+    <p class="section-sub">Controleer de gegevens en verstuur je aanvraag rechtstreeks naar Diana.</p>
+
+    <div class="summary-card" id="summary-card"></div>
+
+    <h3 class="mini-heading">Verstuur je aanvraag naar Diana</h3>
+    <div class="send-actions">
+      <a class="action-btn whatsapp" id="whatsapp-link" href="#" target="_blank" rel="noopener">Verstuur via WhatsApp</a>
+      <a class="action-btn email" id="email-link" href="#">Verstuur via e-mail</a>
+    </div>
+
+    <h3 class="mini-heading">Voeg toe aan mijn agenda</h3>
+    <div class="calendar-actions">
+      <a class="action-btn cal-btn" id="gcal-link" href="#" target="_blank" rel="noopener">Google Agenda</a>
+      <a class="action-btn cal-btn" id="outlook-link" href="#" target="_blank" rel="noopener">Outlook Agenda</a>
+      <a class="action-btn cal-btn" id="ics-link" href="#">Download .ics</a>
+    </div>
+    <p class="note-box">Dit zet de afspraak vast in jouw eigen agenda. In het WhatsApp-/e-mailbericht hierboven staat ook een link waarmee Diana de afspraak met één klik in háár agenda kan zetten — de afspraak is pas definitief zodra zij reageert.</p>
+
+    <div class="btn-row">
+      <button class="ghost" id="back-to-3">Terug</button>
+    </div>
+    <div id="restart-wrap"><button id="restart">Nieuwe aanvraag starten</button></div>
+  </section>
+  </div>
+
+  <section id="invite-view" style="display:none;">
+    <h2 class="section-title">Agenda-uitnodiging</h2>
+    <p class="section-sub" id="invite-sub">Onderstaande afspraak is aangevraagd. Voeg hem toe aan je agenda.</p>
+    <div class="summary-card" id="invite-summary"></div>
+    <div class="send-actions">
+      <button type="button" class="action-btn calendar" id="invite-download" style="width:100%;border:none;">Voeg toe aan agenda</button>
+    </div>
+    <p class="note-box">Dit downloadt een .ics-bestand dat automatisch opent in Outlook, Apple Agenda of Google Agenda — afhankelijk van wat je gebruikt.</p>
+  </section>
+
+  <footer>
+    <span>Diana Loevesijn — Loevesijn Advies &amp; Ontwikkeling</span>
+    <span>Dianaloev@hotmail.com · 06 19468488</span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const services = [
+    { id: 'training', name: 'Training & Opleidingsontwikkeling', desc: 'Trainingen en leertrajecten op maat, gericht op praktijk en gedrag.' },
+    { id: 'organisatie', name: 'Organisatie- & Managementadvies', desc: 'Advies bij organisatievraagstukken, structuur en aansturing.' },
+    { id: 'interim', name: 'Interim Management & Begeleiding', desc: 'Tijdelijke leiding of begeleiding tijdens een overgangsperiode.' },
+    { id: 'coaching', name: 'Individuele coaching', desc: 'Eén-op-één begeleiding gericht op ontwikkeling en groei.' },
+    { id: 'trainingsactrice', name: 'Trainingsactrice', desc: 'Realistische oefensituaties voor training of assessment.' },
+    { id: 'overig', name: 'Overige afspraak', desc: 'Nog niet zeker? Plan een kort kennismakingsgesprek.' }
+  ];
+
+  const DURATION_MIN = 45;
+  const DAY_START_MIN = 9 * 60;      // 09:00
+  const DAY_END_MIN = 20 * 60;       // 20:00
+  const MAX_DAYS_AHEAD = 60;
+  const MIN_LEAD_MIN = 60;           // don't allow booking within the next hour
+
+  const state = { service: null, date: null, time: null };
+
+  // ---------- ICS helpers (real calendar files, no backend needed) ----------
+  function icsEscape(str){
+    return String(str).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n');
+  }
+  function isoToICSStamp(iso){
+    return iso.replace(/[-:]/g,'').split('.')[0];
+  }
+  function buildICS({ title, start, end, details }){
+    const uid = 'loevesijn-' + Date.now() + '-' + Math.random().toString(36).slice(2) + '@loevesijnadvies.nl';
+    const dtstamp = new Date().toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+    return [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Loevesijn Advies en Ontwikkeling//Afspraken//NL',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      'BEGIN:VEVENT',
+      'UID:' + uid,
+      'DTSTAMP:' + dtstamp,
+      'DTSTART:' + isoToICSStamp(start),
+      'DTEND:' + isoToICSStamp(end),
+      'SUMMARY:' + icsEscape(title),
+      'DESCRIPTION:' + icsEscape(details),
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+  }
+  function downloadICS(filename, icsText){
+    const blob = new Blob([icsText], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+
+  // ---------- STEP 1: services ----------
+  const serviceList = document.getElementById('service-list');
+  services.forEach(s => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'service-card';
+    card.innerHTML = `<div class="name">${s.name}</div><div class="desc">${s.desc}</div>`;
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.service = s;
+      document.getElementById('to-step-2').disabled = false;
+    });
+    serviceList.appendChild(card);
+  });
+
+  // ---------- STEP 2: date & time ----------
+  const dateInput = document.getElementById('date-input');
+  const slotGrid = document.getElementById('slot-grid');
+
+  function pad(n){ return n.toString().padStart(2,'0'); }
+  function toDateStr(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const maxDate = new Date(today);
+  maxDate.setDate(maxDate.getDate() + MAX_DAYS_AHEAD);
+
+  dateInput.min = toDateStr(today);
+  dateInput.max = toDateStr(maxDate);
+  dateInput.value = toDateStr(today);
+
+  function buildSlots(){
+    slotGrid.innerHTML = '';
+    state.time = null;
+    document.getElementById('to-step-3').disabled = true;
+
+    const selectedDateStr = dateInput.value;
+    if(!selectedDateStr){ return; }
+    const selectedDate = new Date(selectedDateStr + 'T00:00:00');
+    const isToday = toDateStr(selectedDate) === toDateStr(new Date());
+
+    const now = new Date();
+    const nowMinToday = now.getHours()*60 + now.getMinutes();
+
+    let anySlot = false;
+    for(let m = DAY_START_MIN; m + DURATION_MIN <= DAY_END_MIN; m += DURATION_MIN){
+      if(isToday && m < nowMinToday + MIN_LEAD_MIN){ continue; }
+      anySlot = true;
+      const h = Math.floor(m/60), mm = m%60;
+      const label = pad(h)+':'+pad(mm);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'slot';
+      btn.textContent = label;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+        btn.classList.add('selected');
+        state.time = label;
+        document.getElementById('to-step-3').disabled = false;
+      });
+      slotGrid.appendChild(btn);
+    }
+    if(!anySlot){
+      const empty = document.createElement('div');
+      empty.className = 'slot-empty';
+      empty.textContent = 'Geen tijden meer beschikbaar vandaag — kies een andere datum.';
+      slotGrid.appendChild(empty);
+    }
+  }
+  dateInput.addEventListener('change', buildSlots);
+  buildSlots();
+
+  // ---------- STEP 3: details ----------
+  const nameInput = document.getElementById('name-input');
+  const emailInput = document.getElementById('email-input');
+  const phoneInput = document.getElementById('phone-input');
+  const noteInput = document.getElementById('note-input');
+
+  function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function validPhone(v){ return v.replace(/[^0-9]/g,'').length >= 8; }
+
+  function validateStep3(){
+    let ok = true;
+    const nameField = document.getElementById('field-name');
+    const emailField = document.getElementById('field-email');
+    const phoneField = document.getElementById('field-phone');
+
+    if(nameInput.value.trim().length < 2){ nameField.classList.add('invalid'); ok = false; } else { nameField.classList.remove('invalid'); }
+    if(!validEmail(emailInput.value.trim())){ emailField.classList.add('invalid'); ok = false; } else { emailField.classList.remove('invalid'); }
+    if(!validPhone(phoneInput.value.trim())){ phoneField.classList.add('invalid'); ok = false; } else { phoneField.classList.remove('invalid'); }
+    return ok;
+  }
+
+  // ---------- navigation ----------
+  const panels = { 1: document.getElementById('panel-1'), 2: document.getElementById('panel-2'), 3: document.getElementById('panel-3'), 4: document.getElementById('panel-4') };
+  let currentStep = 1;
+
+  function goTo(step){
+    panels[currentStep].classList.remove('active');
+    currentStep = step;
+    panels[currentStep].classList.add('active');
+    for(let i=1;i<=4;i++){
+      document.getElementById('track-'+i).style.width = i <= step ? '100%' : '0%';
+      document.getElementById('label-'+i).classList.toggle('active', i === step);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  panels[1].classList.add('active');
+  if(!initInviteView()){
+    goTo(1);
+  }
+
+  document.getElementById('to-step-2').addEventListener('click', () => goTo(2));
+  document.getElementById('back-to-1').addEventListener('click', () => goTo(1));
+  document.getElementById('to-step-3').addEventListener('click', () => goTo(3));
+  document.getElementById('back-to-2').addEventListener('click', () => goTo(2));
+  document.getElementById('back-to-3').addEventListener('click', () => goTo(3));
+
+  document.getElementById('to-step-4').addEventListener('click', () => {
+    if(!validateStep3()) return;
+    buildSummary();
+    goTo(4);
+  });
+
+  document.getElementById('restart').addEventListener('click', () => {
+    state.service = null; state.time = null;
+    document.querySelectorAll('.service-card').forEach(c => c.classList.remove('selected'));
+    document.getElementById('to-step-2').disabled = true;
+    nameInput.value = ''; emailInput.value = ''; phoneInput.value = ''; noteInput.value = '';
+    dateInput.value = toDateStr(today);
+    buildSlots();
+    goTo(1);
+  });
+
+  // ---------- STEP 4: summary + send links ----------
+  function formatDateNice(dateStr){
+    const d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
+  }
+
+  function buildSummary(){
+    const dateNice = formatDateNice(dateInput.value);
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const note = noteInput.value.trim();
+
+    document.getElementById('summary-card').innerHTML = `
+      <div class="row"><span class="k">Onderwerp</span><span class="v">${state.service.name}</span></div>
+      <div class="row"><span class="k">Voorkeursmoment</span><span class="v">${dateNice}, ${state.time} (45 min)</span></div>
+      <div class="row"><span class="k">Naam</span><span class="v">${name}</span></div>
+      <div class="row"><span class="k">E-mail</span><span class="v">${email}</span></div>
+      <div class="row"><span class="k">Telefoon</span><span class="v">${phone}</span></div>
+      ${note ? `<div class="row"><span class="k">Toelichting</span><span class="v">${note}</span></div>` : ''}
+    `;
+
+    const bodyLines = [
+      `Hoi Diana, ik wil graag een afspraak inplannen.`,
+      ``,
+      `Onderwerp: ${state.service.name}`,
+      `Voorkeursmoment: ${dateNice}, ${state.time} (45 min)`,
+      ``,
+      `Naam: ${name}`,
+      `E-mail: ${email}`,
+      `Telefoon: ${phone}`,
+    ];
+    if(note) bodyLines.push(`Toelichting: ${note}`);
+    bodyLines.push(``, `Groet, ${name}`);
+    const bodyText = bodyLines.join('\n');
+
+    document.getElementById('whatsapp-link').href = 'https://wa.me/31619468488?text=' + encodeURIComponent(bodyText);
+    document.getElementById('email-link').href = 'mailto:Dianaloev@hotmail.com?subject=' + encodeURIComponent('Afspraakverzoek – ' + state.service.name) + '&body=' + encodeURIComponent(bodyText);
+
+    // calendar deep links (provisional, client-side only)
+    const [h, m] = state.time.split(':').map(Number);
+    const start = new Date(dateInput.value + 'T00:00:00');
+    start.setHours(h, m, 0, 0);
+    const end = new Date(start.getTime() + DURATION_MIN * 60000);
+
+    function toUTCString(d){
+      return d.getUTCFullYear() + pad(d.getUTCMonth()+1) + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + '00Z';
+    }
+    function toLocalISO(d){
+      return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':00';
+    }
+
+    const evTitle = 'Gesprek met Diana Loevesijn – ' + state.service.name;
+    const evDetails = `Voorlopige afspraak, nog te bevestigen door Diana.\nOnderwerp: ${state.service.name}\nContact: ${phone} / ${email}`;
+    const startISO = toLocalISO(start);
+    const endISO = toLocalISO(end);
+
+    document.getElementById('gcal-link').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+      + '&text=' + encodeURIComponent(evTitle)
+      + '&dates=' + toUTCString(start) + '/' + toUTCString(end)
+      + '&details=' + encodeURIComponent(evDetails);
+
+    document.getElementById('outlook-link').href = 'https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent'
+      + '&startdt=' + encodeURIComponent(startISO)
+      + '&enddt=' + encodeURIComponent(endISO)
+      + '&subject=' + encodeURIComponent(evTitle)
+      + '&body=' + encodeURIComponent(evDetails);
+
+    document.getElementById('ics-link').onclick = function(e){
+      e.preventDefault();
+      const ics = buildICS({ title: evTitle, start: startISO, end: endISO, details: evDetails });
+      downloadICS('afspraak-diana-loevesijn.ics', ics);
+    };
+
+    // one-click "add to Diana's calendar" link, embedded in the WhatsApp/email message
+    const inviteTitle = 'Gesprek met ' + name + ' – ' + state.service.name;
+    const inviteDetails = `Aanvraag via het afsprakenformulier.\nOnderwerp: ${state.service.name}\nNaam: ${name}\nE-mail: ${email}\nTelefoon: ${phone}` + (note ? `\nToelichting: ${note}` : '');
+    const inviteParams = new URLSearchParams({
+      invite: '1',
+      title: inviteTitle,
+      start: startISO,
+      end: endISO,
+      details: inviteDetails
+    });
+    const inviteUrl = location.origin + location.pathname + '?' + inviteParams.toString();
+    bodyLines.splice(bodyLines.length - 2, 0, ``, `Voeg toe aan je agenda: ${inviteUrl}`);
+    // re-render links now that bodyLines changed after they were first joined above
+    const bodyTextWithInvite = bodyLines.join('\n');
+    document.getElementById('whatsapp-link').href = 'https://wa.me/31619468488?text=' + encodeURIComponent(bodyTextWithInvite);
+    document.getElementById('email-link').href = 'mailto:Dianaloev@hotmail.com?subject=' + encodeURIComponent('Afspraakverzoek – ' + state.service.name) + '&body=' + encodeURIComponent(bodyTextWithInvite);
+  }
+
+  // ---------- invite view (opened via the link inside the WhatsApp/email message) ----------
+  function initInviteView(){
+    const p = new URLSearchParams(location.search);
+    if(p.get('invite') !== '1') return false;
+    const title = p.get('title') || 'Gesprek met Diana Loevesijn';
+    const start = p.get('start');
+    const end = p.get('end');
+    const details = p.get('details') || '';
+    if(!start || !end) return false;
+
+    document.getElementById('flow').style.display = 'none';
+    document.getElementById('invite-view').style.display = 'block';
+
+    const startNice = new Date(start).toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' })
+      + ', ' + new Date(start).toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' });
+
+    const detailLines = details.split('\n');
+    document.getElementById('invite-summary').innerHTML = `
+      <div class="row"><span class="k">Afspraak</span><span class="v">${title}</span></div>
+      <div class="row"><span class="k">Moment</span><span class="v">${startNice} (45 min)</span></div>
+      ${detailLines.map(l => `<div class="row"><span class="v" style="text-align:left;">${l}</span></div>`).join('')}
+    `;
+
+    document.getElementById('invite-download').addEventListener('click', function(){
+      const ics = buildICS({ title, start, end, details });
+      downloadICS('afspraak-diana-loevesijn.ics', ics);
+    });
+    return true;
+  }
+})();
+</script>
+</body>
+</html>
